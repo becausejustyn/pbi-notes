@@ -18,6 +18,7 @@ ref table financials
 ref table DateTableTemplate_e993b53b-e296-4791-81bb-6a52c0d76384
 ref table LocalDateTable_2d2485ca-344d-45ef-abb6-e7446e245a13
 ref table _Measures
+ref table Date
 
 ref cultureInfo en-AU
 

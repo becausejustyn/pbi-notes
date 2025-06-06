@@ -1,0 +1,138 @@
+table Date
+	lineageTag: f8f19ec2-1790-4c16-9f58-70c9440df7fb
+	dataCategory: Time
+
+	column Date
+		isKey
+		formatString: General Date
+		lineageTag: 88d33878-2a02-4a03-92d2-e26ef4783465
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		formatString: 0
+		lineageTag: b08ede20-02bb-4bb7-bf3d-28531e469017
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthYear
+		lineageTag: 0d70f612-7929-4499-b1b4-f5b4c4ea8978
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [MonthYear]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		formatString: 0
+		lineageTag: f2597f6d-f665-4df2-b15d-1627e65670ae
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Days in Month'
+		formatString: 0
+		lineageTag: 6777bcb8-23f3-41b4-ba62-6086d34d8275
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Days in Month]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Month Number'
+		formatString: 0
+		lineageTag: d298a2be-ccb0-4c0b-a44e-69784ad90836
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year Month Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Month Name'
+		lineageTag: 00267ca9-c91f-4089-85ae-ad18e9123ca8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year Month Name]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		formatString: 0
+		lineageTag: d3ce4e94-d1bd-4b95-b154-8411883fb859
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Day]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Year'
+		formatString: 0
+		lineageTag: f7fd4c61-553b-446d-95e1-6502c91dde2f
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Day of Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		lineageTag: 813bae12-3699-47d2-b48f-ac35cabdfdf2
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Name]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week of Year'
+		formatString: 0
+		lineageTag: d6ed59bf-5ae9-4259-a4f8-04447840fdac
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Week of Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateInt
+		lineageTag: 3da99bd0-f7cb-4f0e-8158-795c360205bd
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [DateInt]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date = calculated
+		mode: import
+		source = ```
+				
+				
+				VAR __Today = TODAY()
+				
+				RETURN
+				    ADDCOLUMNS(
+				        CALENDAR(
+				            DATE(2021, 1, 1),
+				            DATE(YEAR(__Today), 12, 31)
+				    ),
+				    "Year", YEAR([Date]),
+				    "MonthYear", FORMAT([Date], "MMM yyyy"), 
+				    "Month", MONTH([Date]),
+				    "Days in Month", DATEDIFF(DATE(YEAR([Date]), MONTH([Date]), 1), EOMONTH([Date], 0), DAY) + 1,
+				    "Year Month Number", INT(FORMAT([Date], "YYYYMM")),
+				    "Year Month Name", FORMAT([Date], "MMM-YY"),
+				    "Day", DAY([Date]),
+				    "Day of Year", DATEDIFF(DATE(YEAR([Date]), 1, 1), [Date], DAY) + 1,
+				    "Month Name", FORMAT([Date], "MMMM"),
+				    "Week of Year", WEEKNUM([Date]),
+				    "DateInt", FORMAT([Date], "YYYYMMDD")
+				    )
+				```
+
+	annotation PBI_Id = 4bab3d7321774f4aa24d0e6a2091ea39
+
